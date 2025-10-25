@@ -1,53 +1,70 @@
 function ConvertHandler() {
-  
-  this.getNum = function(input) {
+  this.getReturnUnit = function (initUnit) {
     let result;
-    
-    return result;
-  };
-  
-  this.getUnit = function(input) {
-    let result;
-    
-    return result;
-  };
-  
-  this.getReturnUnit = function(initUnit) {
-    let result;
-    
+
+    switch (initUnit) {
+      case "gal":
+        result = "L";
+        break;
+      case "l":
+        result = "gal";
+        break;
+    }
+
     return result;
   };
 
-  this.spellOutUnit = function(unit) {
+  this.spellOutUnit = function (unit) {
     let result;
-    
+
+    switch (unit) {
+      case "l":
+        result = "liters";
+        break;
+      case "gal":
+        result = "gallons";
+        break;
+    }
+
     return result;
   };
-  
-  this.convert = function(initNum, initUnit) {
+
+  this.convert = function (initNum, initUnit) {
+    const lowercaseUnit = initUnit.toLowerCase();
+
     const galToL = 3.78541;
     const lbsToKg = 0.453592;
     const miToKm = 1.60934;
     let result;
 
-    switch(initUnit) {
+    switch (lowercaseUnit) {
       case "gal":
-        result = initNum * galToL
+        result = initNum * galToL;
         break;
-      case "L":
-        result = initNum / galToL
+      case "l":
+        result = initNum / galToL;
         break;
     }
-    
-    return result;
+
+    const returnNum = result.toFixed(5);
+    const returnUnit = this.getReturnUnit(lowercaseUnit);
+    const initUnitString = this.spellOutUnit(lowercaseUnit);
+    const returnUnitString = this.spellOutUnit(returnUnit);
+
+    return {
+      initNum,
+      initUnit,
+      returnNum,
+      returnUnit,
+      string: `${initNum} ${initUnitString} converts to ${returnNum} ${returnUnitString}`,
+    };
   };
-  
-  this.getString = function(initNum, initUnit, returnNum, returnUnit) {
+
+  this.getString = function (initNum, initUnit, returnNum, returnUnit) {
     let result = this.convert(initNum, initUnit);
-    
+
     return result;
   };
-  
 }
 
 module.exports = ConvertHandler;
